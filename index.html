@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madres Seguras: Guía Interactiva de Signos de Alarma</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FFF9F5;
+            --card-bg: #FFFFFF;
+            --primary: #E86A92;
+            --primary-hover: #D8547E;
+            --secondary: #47B8B0;
+            --text-dark: #2C3E50;
+            --text-muted: #6C7A89;
+            --green: #2ECC71;
+            --green-light: #EAFAF1;
+            --yellow: #F39C12;
+            --yellow-light: #FEF9E7;
+            --red: #E74C3C;
+            --red-light: #FDEDEC;
+            --shadow: 0 10px 25px rgba(0,0,0,0.08);
+            --radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid #FFE4E8;
+        }
+
+        header h1 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary);
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* NAVIGATION TABS */
+        .nav-tabs {
+            display: flex;
+            background: #F0E5DF;
+            padding: 5px;
+            border-radius: 15px;
+            gap: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* MAIN CARD CONTAINER */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid #F3EBE6;
+        }
+
+        /* SECTION 1: SIMULADOR DE HISTORIAS */
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-badge {
+            background: #FFE4E8;
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .story-illustration {
+            width: 100%;
+            height: 180px;
+            background: #FFF0F3;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .story-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4A5568;
+            margin-bottom: 20px;
+        }
+
+        /* DECISION BUTTONS */
+        .options-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-option {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 2px solid #EDF2F7;
+            border-radius: 14px;
+            background: white;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-option:active {
+            transform: scale(0.98);
+        }
+
+        .btn-green { border-color: #A8E6CF; }
+        .btn-yellow { border-color: #FFD3B6; }
+        .btn-red { border-color: #FFAAA5; }
+
+        .btn-green:hover { background: var(--green-light); }
+        .btn-yellow:hover { background: var(--yellow-light); }
+        .btn-red:hover { background: var(--red-light); }
+
+        .icon-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        /* FEEDBACK MODAL / BOX */
+        .feedback-box {
+            display: none;
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 14px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-box.show { display: block; }
+
+        .feedback-box.correct {
+            background: var(--green-light);
+            border: 2px solid var(--green);
+            color: #1E8449;
+        }
+
+        .feedback-box.incorrect {
+            background: var(--red-light);
+            border: 2px solid var(--red);
+            color: #922B21;
+        }
+
+        .feedback-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-next {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(232, 106, 146, 0.3);
+        }
+
+        /* SECTION 2: GUÍA DE BOLSIA (SEMAFORO) */
+        .traffic-light-card {
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+        }
+
+        .tl-red { background: var(--red-light); border-left: 6px solid var(--red); }
+        .tl-yellow { background: var(--yellow-light); border-left: 6px solid var(--yellow); }
+        .tl-green { background: var(--green-light); border-left: 6px solid var(--green); }
+
+        .tl-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tl-red .tl-title { color: #C0392B; }
+        .tl-yellow .tl-title { color: #D68910; }
+        .tl-green .tl-title { color: #27AE60; }
+
+        .tl-list {
+            padding-left: 20px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: #34495E;
+        }
+
+        .tl-list li { margin-bottom: 4px; }
+
+        /* EMERGENCY BUTTONS */
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .call-btn {
+            background: #27AE60;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2);
+        }
+
+        .call-btn.minsa { background: #E74C3C; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- HEADER -->
+    <header>
+        <h1>🤰 Madres Seguras</h1>
+        <p>Aprende a reconocer las señales de alerta</p>
+    </header>
+
+    <!-- PESTAÑAS DE NAVEGACIÓN -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('cases')">📖 Historias</button>
+        <button class="tab-btn" onclick="switchTab('guide')">🚥 Semáforo S.O.S</button>
+        <button class="tab-btn" onclick="switchTab('emergency')">📞 Emergencias</button>
+    </div>
+
+    <!-- SECCIÓN 1: SIMULADOR DE CASOS REALES -->
+    <div id="sec-cases" class="card">
+        <div class="story-header">
+            <span class="step-badge" id="case-counter">Caso 1 de 5</span>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);" id="score-text">Puntos: 0</span>
+        </div>
+
+        <div class="story-illustration" id="story-emoji">
+            😴
+        </div>
+
+        <div class="story-title" id="story-title">Un despertar con dolor</div>
+        <div class="story-text" id="story-text">
+            María tiene 28 semanas de embarazo. Al levantarse siente un dolor de cabeza muy fuerte que no disminuye y nota unas luces brillantes (destellos) al mirar al frente.
+        </div>
+
+        <div class="options-title">¿Qué debe hacer María?</div>
+        
+        <div id="options-container">
+            <!-- Botones dinámicos -->
+        </div>
+
+        <div id="feedback-box" class="feedback-box">
+            <div class="feedback-title" id="feedback-title"></div>
+            <div id="feedback-text" style="font-size:0.92rem; line-height:1.4;"></div>
+            <button class="btn-next" onclick="nextCase()">Siguiente Historia ➔</button>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: GUÍA DE BOLSICHO (SEMÁFORO) -->
+    <div id="sec-guide" class="card hidden">
+        <h2 style="font-family:'Fredoka'; color:var(--text-dark); margin-bottom:15px; font-size:1.3rem;">Guía Rápida de Signos</h2>
+        
+        <div class="traffic-light-card tl-red">
+            <div class="tl-title">🚨 ROJO: Acudir a Urgencias YA</div>
+            <ul class="tl-list">
+                <li>Sangrado vaginal (cualquier cantidad).</li>
+                <li>Dolor de cabeza intenso con visión borrosa o zumbido de oídos.</li>
+                <li>Pérdida de líquido claro por la vagina ("romper aguas").</li>
+                <li>El bebé no se mueve o se mueve mucho menos de lo normal.</li>
+                <li>Fiebre alta (más de 38 °C) con escalofríos.</li>
+                <li>Contracciones frecuentes y dolorosas antes del tiempo.</li>
+            </ul>
+        </div>
+
+        <div class="traffic-light-card tl-yellow">
+            <div class="tl-title">⚠️ AMARILLO: Consulta en 24-48 hrs</div>
+            <ul class="tl-list">
+                <li>Ardor o molestia al orinar.</li>
+                <li>Hinchazón repentina de manos y cara.</li>
+                <li>Flujo vaginal con mal olor o picazón.</li>
+                <li>Vómitos continuos que no te dejan comer nada en el día.</li>
+            </ul>
+        </div>
+
+        <div class="traffic-light-card tl-green">
+            <div class="tl-title">✅ VERDE: Síntoma Normal (Reposo)</div>
+            <ul class="tl-list">
+                <li>Ligeras náuseas matutinas en el primer trimestre.</li>
+                <li>Hinchazón leve de tobillos al final de la tarde.</li>
+                <li>El bebé se mueve con fuerza al acostarte a descansar.</li>
+                <li>Cansancio o sueño frecuente durante el día.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 3: DIRECTORIO DE EMERGENCIAS -->
+    <div id="sec-emergency" class="card hidden">
+        <h2 style="font-family:'Fredoka'; color:var(--text-dark); margin-bottom:10px; font-size:1.3rem;">Líneas Gratuitas de Salud</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">Si sientes algún signo de alarma rojo, llama inmediatamente o pide a un familiar que te lleve al centro de salud más cercano.</p>
+
+        <div class="emergency-grid">
+            <a href="tel:113" class="call-btn minsa">
+                📞 113 <br><small>MINSA Salud</small>
+            </a>
+            <a href="tel:106" class="call-btn">
+                AMBULANCIA<br><small>106 SAMU</small>
+            </a>
+            <a href="tel:107" class="call-btn" style="background:#2980B9;">
+                📞 107 <br><small>EsSalud</small>
+            </a>
+            <a href="tel:105" class="call-btn" style="background:#34495E;">
+                POLICÍA<br><small>105 Emergencia</small>
+            </a>
+        </div>
+
+        <div style="margin-top:20px; padding:15px; background:#F8F9F9; border-radius:12px; font-size:0.88rem; color:#566573;">
+            💡 <strong>Consejo para el acompañante:</strong> Ten siempre lista tu DNI, carné perinatal de control y una maleta pequeña con ropa cómoda por si debes quedarte en observación.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // CASOS EDUCATIVOS
+    const cases = [
+        {
+            title: "Un despertar con dolor",
+            text: "María tiene 28 semanas. Al levantarse siente un dolor de cabeza muy fuerte que no disminuye y ve destellos de luz al mirar a la pared.",
+            emoji: "🤕",
+            options: [
+                { text: " Tomar una pastilla y esperar en cama todo el día", type: "yellow", correct: false, reason: "¡Atención! El dolor de cabeza fuerte con visión de luces es signo de PREECLAMPSIA (presión alta). No debes esperar en casa." },
+                { text: "🚨 Ir INMEDIATAMENTE al centro de salud o emergencias", type: "red", correct: true, reason: "¡Correcto! Es un signo de alarma rojo. Requiere medir la presión arterial y atención médica de urgencia." },
+                { text: " Tomar un té caliente y hacer reposo", type: "green", correct: false, reason: "Incorrecto. Este síntoma no se quita con reposo y puede poner en riesgo tu salud y la de tu bebé." }
+            ]
+        },
+        {
+            title: "Movimientos en la noche",
+            text: "Rosa tiene 32 semanas. Por la tarde estuvo caminando mucho, pero al acostarse en la cama siente que su bebé da varias pataditas suaves.",
+            emoji: "👶",
+            options: [
+                { text: "✅ Es normal, el bebé está activo al estar la mamá en reposo", type: "green", correct: true, reason: "¡Excelente! Es completamente normal. Los bebés suelen sentirse más cuando la mamá se relaja y se acuesta." },
+                { text: "🚨 Salir corriendo al hospital de emergencias", type: "red", correct: false, reason: "No es necesario correr a emergencias. Que el bebé se mueva es un signo saludable." },
+                { text: " Dejar de comer por el resto del día", type: "yellow", correct: false, reason: "No tiene relación con la alimentación. Sentir movimientos es síntoma de bienestar fetal." }
+            ]
+        },
+        {
+            title: "Manchado inesperado",
+            text: "Lucía nota al ir al baño un sangrado de color rojo brillante en su ropa interior, similar al inicio de un periodo.",
+            emoji: "🩸",
+            options: [
+                { text: " Colocarse una toalla higiénica y revisar mañana", type: "yellow", correct: false, reason: "Esperar a mañana es peligroso. Todo sangrado activo en el embarazo requiere evaluación médica inmediata." },
+                { text: "🚨 Acudir de INMEDIATO al servicio de emergencias", type: "red", correct: true, reason: "¡Correcto! El sangrado vaginal es una ALERTA ROJA en cualquier etapa del embarazo." },
+                { text: " Es algo normal de todos los meses", type: "green", correct: false, reason: "Incorrecto. En el embarazo no debe haber sangrado tipo regla." }
+            ]
+        },
+        {
+            title: "Molestias al orinar",
+            text: "Carmen siente un ardor leve al orinar y ganas de ir al baño a cada momento, pero no tiene dolor de vientre ni fiebre.",
+            emoji: "🚽",
+            options: [
+                { text: "🚨 Llama a una ambulancia inmediatamente", type: "red", correct: false, reason: "Aunque es importante tratarlo, no requiere ambulancia a menos que haya fiebre alta o dolor lumbar intenso." },
+                { text: "⚠️ Agendar una consulta médica en las próximas 24 horas", type: "yellow", correct: true, reason: "¡Muy bien! Indica una posible infección urinaria. Debe evaluarse pronto para recibir tratamiento oportuno." },
+                { text: " Ignorarlo porque ocurre por el peso del bebé", type: "green", correct: false, reason: "No lo ignores. Las infecciones de orina no tratadas pueden provocar contracciones antes de tiempo." }
+            ]
+        },
+        {
+            title: "Líquido tibio e inodoro",
+            text: "Ana siente de pronto que se le moja la ropa interior con un líquido transparente que huele levemente a lejía y se le escurre por las piernas.",
+            emoji: "💧",
+            options: [
+                { text: " Cambiarse de ropa y colocarse una almohadilla", type: "yellow", correct: false, reason: "No basta con cambiarse. Es probable que se hayan roto las membranas ('romper aguas')." },
+                { text: "🚨 Ir INMEDIATAMENTE al hospital o maternidad", type: "red", correct: true, reason: "¡Excelente decisión! La pérdida de líquido amniótico es una urgencia porque el bebé queda expuesto a infecciones." },
+                { text: " Esperar 3 días a la cita que ya tenía programada", type: "green", correct: false, reason: "Jamás debes esperar. Acude hoy mismo al hospital." }
+            ]
+        }
+    ];
+
+    let currentCase = 0;
+    let score = 0;
+
+    function renderCase() {
+        const c = cases[currentCase];
+        document.getElementById('case-counter').innerText = `Caso ${currentCase + 1} de ${cases.length}`;
+        document.getElementById('story-emoji').innerText = c.emoji;
+        document.getElementById('story-title').innerText = c.title;
+        document.getElementById('story-text').innerText = c.text;
+        document.getElementById('score-text').innerText = `Puntos: ${score}`;
+
+        const optsContainer = document.getElementById('options-container');
+        optsContainer.innerHTML = '';
+
+        c.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = `btn-option btn-${opt.type}`;
+            btn.onclick = () => selectOption(idx);
+
+            let icon = '⚪';
+            if(opt.type === 'green') icon = '🟢';
+            if(opt.type === 'yellow') icon = '🟡';
+            if(opt.type === 'red') icon = '🔴';
+
+            btn.innerHTML = `<span class="icon-circle">${icon}</span> <span>${opt.text}</span>`;
+            optsContainer.appendChild(btn);
+        });
+
+        document.getElementById('feedback-box').className = 'feedback-box';
+    }
+
+    function selectOption(index) {
+        const c = cases[currentCase];
+        const selected = c.options[index];
+        const feedbackBox = document.getElementById('feedback-box');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackText = document.getElementById('feedback-text');
+
+        if(selected.correct) {
+            score += 20;
+            feedbackBox.className = 'feedback-box show correct';
+            feedbackTitle.innerHTML = '✨ ¡Excelente Elección!';
+        } else {
+            feedbackBox.className = 'feedback-box show incorrect';
+            feedbackTitle.innerHTML = '⚠️️ Ojo con esto...';
+        }
+
+        feedbackText.innerText = selected.reason;
+        document.getElementById('score-text').innerText = `Puntos: ${score}`;
+    }
+
+    function nextCase() {
+        if(currentCase < cases.length - 1) {
+            currentCase++;
+            renderCase();
+        } else {
+            alert(`🎉 ¡Felicidades! Has completado las historias educativas.\nTu puntuación final es: ${score} / 100 puntos.\n\nRecuerda revisar el Semáforo de Emergencias.`);
+            currentCase = 0;
+            score = 0;
+            renderCase();
+        }
+    }
+
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('sec-cases').classList.add('hidden');
+        document.getElementById('sec-guide').classList.add('hidden');
+        document.getElementById('sec-emergency').classList.add('hidden');
+
+        if(tabName === 'cases') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('sec-cases').classList.remove('hidden');
+        } else if(tabName === 'guide') {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('sec-guide').classList.remove('hidden');
+        } else if(tabName === 'emergency') {
+            document.querySelectorAll('.tab-btn')[2].classList.add('active');
+            document.getElementById('sec-emergency').classList.remove('hidden');
+        }
+    }
+
+    // Inicializar
+    renderCase();
+</script>
+
+</body>
+</html>
